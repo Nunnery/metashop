@@ -1,0 +1,14 @@
+name: @NAME@
+version: @VERSION@
+main: com.tealcube.minecraft.spigot.metashop.MetaShopPlugin
+depend: [Vault]
+
+commands:
+  metashop:
+    aliases: [metas, mshop, ms]
+
+permissions:
+  metashop.command.show:
+    default: op
+  metashop.command.list:
+    default: op

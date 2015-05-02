@@ -1,0 +1,37 @@
+name: "Example Shop"
+number-of-lines: 2
+# Uncomment the below line if you want the close button
+# at a specific location. Leave it at -1 if you don't
+# want a close button at all.
+#close-item-index: -1
+items:
+  youcanliterallyputanythinghere:
+    # index refers to the number of the slot where this item
+    # will be found, starting at 0 in the upper left corner.
+    # Change this number to -1 for a random location.
+    index: 0
+    material: WOOD_SWORD
+    amount: 1
+    price: 20.00
+    name: "<white>Example Item #1"
+    # hide-flags refers to the ugly "+7 Attack Damage" that Mojang
+    # added to the game
+    hide-flags: true
+    lore:
+    - "<white>Example lore #1"
+    - "<white>I like: pretty configuration files"
+    enchantments:
+      DAMAGE_ALL: 1
+  anotherplaceyoucanliterallyputanything:
+    index: 1
+    material: WOOD
+    amount: 64
+    price: 69.69
+    # Leave the name section commented or empty quotes for the item to
+    # have its default name
+    #name: ""
+    # Leave the lore section commented or empty square brackets []
+    # for the item to have its default lore
+    #lore:
+    #- "<white>Example lore #2"
+    #- "<white>I hate: ugly configuration files"

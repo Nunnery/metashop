@@ -1,0 +1,100 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id "com.github.hierynomus.license" version "0.11.0"
+    id "com.github.johnrengelman.shadow" version "1.2.0"
+    id "java"
+    id "maven-publish"
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://hub.spigotmc.org/nexus/content/groups/public/"
+    }
+    maven {
+        url "http://nexus.theyeticave.net/content/repositories/pub_releases"
+    }
+    maven {
+        url "http://tealcube.com/nexus/content/groups/public/"
+    }
+    maven {
+        url "http://repo.greatmancode.com/content/groups/public/"
+    }
+}
+
+dependencies {
+    compile ("org.spigotmc:spigot-api:1.8.3-R0.1-SNAPSHOT") {
+        exclude module: "bungeecord-chat"
+    }
+    compile "net.milkbowl.vault:VaultAPI:1.5"
+    compile "se.ranzdo.bukkit:methodcommand:0.2-SNAPSHOT"
+    compile "com.tealcube.minecraft.bukkit:config:1.0.0-SNAPSHOT"
+    compile "com.tealcube.minecraft.bukkit:hilt:1.0.0-SNAPSHOT"
+    compile "ninja.amp:ampmenus:1.4-SNAPSHOT"
+}
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            VERSION: version + "-" + (System.getenv("BUILD_NUMBER") ?: "0"),
+            NAME   : System.getenv("JOB_NAME") ?: project.archivesBaseName
+    ]
+}
+
+shadowJar {
+    baseName = artifactID
+    classifier = ""
+
+    dependencies {
+        exclude(dependency("org.spigotmc:spigot-api"))
+    }
+
+    relocate "com.tealcube.minecraft.bukkit.hilt", "com.tealcube.minecraft.bukkit.metashop.shade.hilt"
+    relocate "com.tealcube.minecraft.bukkit.config", "com.tealcube.minecraft.bukkit.metashop.shade.config"
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.getDestinationDir()
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives shadowJar
+}
+
+license {
+    header file('HEADER')
+    ignoreFailures false
+    strictCheck true
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            groupId = groupID
+            artifactId = artifactID
+            from components.shadow
+        }
+    }
+    repositories {
+        maven {
+            url "http://tealcube.com/nexus/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'}/"
+            name "TealCube"
+            credentials {
+                username System.getenv("nexusUsername") ?: nexusUsername
+                password System.getenv("nexusPassword") ?: nexusPassword
+            }
+        }
+    }
+}
