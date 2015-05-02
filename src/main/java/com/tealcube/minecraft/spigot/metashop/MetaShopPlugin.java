@@ -103,7 +103,7 @@ public class MetaShopPlugin extends JavaPlugin {
                     ConfigurationSection itemSection = section.getConfigurationSection(key);
                     HiltItemStack his = new HiltItemStack(Material.valueOf(itemSection.getString("material")));
                     his.setAmount(itemSection.getInt("amount"));
-                    his.setName(TextUtils.color(itemSection.getString("name")));
+                    his.setName(TextUtils.color(itemSection.getString("name", "")));
                     List<String> lore = itemSection.getStringList("lore");
                     lore.add(settings.getString("config.price-display"));
                     his.setLore(TextUtils.color(lore));
