@@ -49,9 +49,9 @@ public final class CaselessMap<T> extends HashMap<String, T> {
     }
 
     @Override
-    public boolean remove(Object key, Object value) {
+    public T remove(Object key) {
         String s = key.toString().toLowerCase();
-        return super.remove(s, value);
+        return super.remove(s);
     }
 
 }
