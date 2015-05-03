@@ -6,3 +6,8 @@ successful-open: "<green>You were able to successfully open that menu for the ta
 successful-purchase: "<green>You successfully purchased your item."
 unable-to-select-shop: "<red>You were unable to select that shop."
 successful-shop-selection: "<green>You successfully selected that shop."
+no-session: "<red>You do not currently have a shop selected."
+unsupported-item: "<red>You cannot put that in a shop."
+shop-does-not-exist: "<red>That shop does not exist."
+successful-item-add: "<green>You successfully added the item in your hand to the shop."
+successful-item-remove: "<green>You successfully removed the item in that index from the shop."

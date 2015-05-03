@@ -54,9 +54,10 @@ public class Shop extends ItemMenu {
         return storeItems;
     }
 
-    public void addItem(int index, ShopItem item) {
+    public ItemMenu setItem(int index, ShopItem item) {
+        super.setItem(index, item);
         this.storeItems.put(index, item);
-        this.setItem(index, item);
+        return this;
     }
 
 }

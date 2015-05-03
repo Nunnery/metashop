@@ -57,4 +57,9 @@ public final class SessionManager {
         return !hasShopEditSession(uuid);
     }
 
+    public static ShopEditSession getShopEditSession(UUID uuid) {
+        Preconditions.checkNotNull(uuid);
+        return SHOP_EDIT_SESSION_MAP.get(uuid);
+    }
+
 }

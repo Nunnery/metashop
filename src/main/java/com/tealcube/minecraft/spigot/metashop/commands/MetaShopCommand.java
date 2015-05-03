@@ -14,12 +14,15 @@
  */
 package com.tealcube.minecraft.spigot.metashop.commands;
 
+import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
 import com.tealcube.minecraft.spigot.metashop.managers.SessionManager;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
 import com.tealcube.minecraft.spigot.metashop.sessions.ShopEditSession;
 import com.tealcube.minecraft.spigot.metashop.shops.Shop;
+import com.tealcube.minecraft.spigot.metashop.shops.ShopItem;
 import com.tealcube.minecraft.spigot.metashop.utils.MessageUtils;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import se.ranzdo.bukkit.methodcommand.Arg;
@@ -66,6 +69,52 @@ public class MetaShopCommand {
         shopEditSession.setShopId(shop.getId());
         SessionManager.addShopEditSession(shopEditSession);
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-shop-selection"));
+    }
+
+    @Command(identifier = "metashop add", permissions = "metashop.command.add", onlyPlayers = true)
+    public void addSubcommand(Player sender, @Arg(name = "index") int index, @Arg(name = "price") double price) {
+        if (!SessionManager.hasShopEditSession(sender.getUniqueId())) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.no-session"));
+            return;
+        }
+        ShopEditSession session = SessionManager.getShopEditSession(sender.getUniqueId());
+        if (session.getShopId() == null) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.no-session"));
+            return;
+        }
+        if (sender.getItemInHand() == null || sender.getItemInHand().getType() == Material.AIR) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unsupported-item"));
+            return;
+        }
+        HiltItemStack his = new HiltItemStack(sender.getItemInHand());
+        Shop shop = ShopManager.getShop(session.getShopId());
+        if (shop == null) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
+            return;
+        }
+        ShopItem item = new ShopItem(his, price);
+        shop.setItem(index, item);
+        MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-add-item"));
+    }
+
+    @Command(identifier = "metashop remove", permissions = "metashop.command.remove", onlyPlayers = true)
+    public void removeSubcommand(Player sender, @Arg(name = "index") int index) {
+        if (!SessionManager.hasShopEditSession(sender.getUniqueId())) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.no-session"));
+            return;
+        }
+        ShopEditSession session = SessionManager.getShopEditSession(sender.getUniqueId());
+        if (session.getShopId() == null) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.no-session"));
+            return;
+        }
+        Shop shop = ShopManager.getShop(session.getShopId());
+        if (shop == null) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
+            return;
+        }
+        shop.setItem(index, null);
+        MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-remove-item"));
     }
 
 }
