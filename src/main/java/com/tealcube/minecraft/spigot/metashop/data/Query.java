@@ -1,5 +1,5 @@
 /*
- * This file is part of Strife, licensed under the ISC License.
+ * This file is part of MetaShop, licensed under the ISC License.
  *
  * Copyright (c) 2015 Richard Harrah
  *
