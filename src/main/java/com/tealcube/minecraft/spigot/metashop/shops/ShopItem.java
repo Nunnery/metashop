@@ -31,8 +31,7 @@ public class ShopItem extends MetaMenuItem {
     private double price;
 
     public ShopItem(HiltItemStack hiltItemStack, double price) {
-        super(hiltItemStack.getName(), hiltItemStack,
-                TextUtils.args(hiltItemStack.getLore(), new String[][]{{"%price%", "" + price}}));
+        super(hiltItemStack.getName(), hiltItemStack, hiltItemStack.getLore());
         this.itemToSell = hiltItemStack;
         this.price = price;
     }
@@ -70,7 +69,7 @@ public class ShopItem extends MetaMenuItem {
         if (balance < price) {
             List<String> newLore = icon.getLore();
             newLore.add(TextUtils.color(MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive")));
-            icon.setLore(newLore);
+            icon.setLore(TextUtils.args(newLore, new String[][]{{"%price%", getPrice() + ""}}));
         }
         return icon;
     }
