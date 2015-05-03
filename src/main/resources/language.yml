@@ -1,6 +1,7 @@
-version: "0.0.3"
+version: "0.0.4"
 item-too-expensive: "<red>Too expensive. You cannot afford this item."
 unable-to-open-sender: "<red>You were unable to open that shop."
 unable-to-open-receiver: "<red>That shop was unable to be opened for you."
 successful-open: "<green>You were able to successfully open that menu for the target."
 successful-purchase: "<green>You successfully purchased your item."
+unable-to-select-shop: "<red>You were unable to select that shop."
