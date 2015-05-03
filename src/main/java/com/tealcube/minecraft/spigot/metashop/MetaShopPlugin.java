@@ -79,11 +79,22 @@ public class MetaShopPlugin extends JavaPlugin {
             return;
         }
 
+        loadShops();
+
+        this.commandHandler = new CommandHandler(this);
+        this.commandHandler.registerCommands(new MetaShopCommand(this));
+    }
+
+    public void loadShops() {
         File shopsDirectory = new File(getDataFolder(), "/shops/");
         if (!IOUtil.mkdirs(shopsDirectory)) {
             getLogger().info("Unable to make shops directory");
         }
         createExampleShopConfig(shopsDirectory);
+
+        for (Shop shop : ShopManager.getShops()) {
+            ShopManager.removeShop(shop);
+        }
 
         // time for the whirlwind that is creating shops!
         for (String s : shopsDirectory.list()) {
@@ -126,9 +137,6 @@ public class MetaShopPlugin extends JavaPlugin {
         }
 
         getLogger().info("Loaded shops: " + ShopManager.getShops().size());
-
-        this.commandHandler = new CommandHandler(this);
-        this.commandHandler.registerCommands(new MetaShopCommand(this));
     }
 
     private void createExampleShopConfig(File shopsDirectory) {
@@ -149,7 +157,7 @@ public class MetaShopPlugin extends JavaPlugin {
         saveShops();
     }
 
-    private void saveShops() {
+    public void saveShops() {
         for (Shop shop : ShopManager.getShops()) {
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration(new File(getDataFolder(), "/shops/" + shop.getId() + ".yml"));
             for (String key : shopConfig.getKeys(true)) {

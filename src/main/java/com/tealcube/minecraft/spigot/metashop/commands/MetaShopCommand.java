@@ -117,4 +117,16 @@ public class MetaShopCommand {
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-remove-item"));
     }
 
+    @Command(identifier = "metashop save", permissions = "metashop.command.save", onlyPlayers = false)
+    public void saveSubcommand(CommandSender sender) {
+        plugin.saveShops();
+        MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.save"));
+    }
+
+    @Command(identifier = "metashop load", permissions = "metashop.command.save", onlyPlayers = false)
+    public void loadSubcommand(CommandSender sender) {
+        plugin.loadShops();
+        MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.load"));
+    }
+
 }
