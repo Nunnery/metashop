@@ -1,5 +1,5 @@
-version: "0.0.1"
-too-expensive-item-addition: "<red>Too expensive. You cannot afford this item."
+version: "0.0.2"
+item-too-expensive: "<red>Too expensive. You cannot afford this item."
 unable-to-open-sender: "<red>You were unable to open that shop."
 unable-to-open-receiver: "<red>That shop was unable to be opened for you."
 successful-open: "<green>You were able to successfully open that menu for the target."
