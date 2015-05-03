@@ -15,7 +15,9 @@
 package com.tealcube.minecraft.spigot.metashop.commands;
 
 import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
+import com.tealcube.minecraft.spigot.metashop.managers.SessionManager;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
+import com.tealcube.minecraft.spigot.metashop.sessions.ShopEditSession;
 import com.tealcube.minecraft.spigot.metashop.shops.Shop;
 import com.tealcube.minecraft.spigot.metashop.utils.MessageUtils;
 import org.bukkit.command.CommandSender;
@@ -51,6 +53,19 @@ public class MetaShopCommand {
         for (Shop shop : ShopManager.getShops()) {
             MessageUtils.sendMessage(sender, shop.getId() + " : " + shop.getName());
         }
+    }
+
+    @Command(identifier = "metashop select", permissions = "metashop.command.select", onlyPlayers = true)
+    public void selectSubcommand(Player sender, @Arg(name = "shop name") String shopName) {
+        Shop shop = ShopManager.getShop(shopName);
+        if (shop == null) {
+            MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-select-shop"));
+            return;
+        }
+        ShopEditSession shopEditSession = new ShopEditSession(sender.getUniqueId());
+        shopEditSession.setShopId(shop.getId());
+        SessionManager.addShopEditSession(shopEditSession);
+        MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-shop-selection"));
     }
 
 }
