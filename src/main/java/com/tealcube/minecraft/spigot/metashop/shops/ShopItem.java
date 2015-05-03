@@ -66,13 +66,14 @@ public class ShopItem extends MetaMenuItem {
     public ItemStack getFinalIcon(Player player) {
         HiltItemStack icon = new HiltItemStack(super.getFinalIcon(player));
         double balance = MetaShopPlugin.getInstance().getEconomy().getBalance(player);
-        icon.getLore().add(TextUtils.color(MetaShopPlugin.getInstance().getSettings().getString("config.price-display")));
+        List<String> lore = icon.getLore();
+        lore.add(TextUtils.color(MetaShopPlugin.getInstance().getSettings().getString("config.price-display")));
         if (balance < price) {
-            List<String> newLore = icon.getLore();
-            newLore.add(TextUtils.color(MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive")));
-            icon.setLore(newLore);
+            lore.add(TextUtils.color(
+                    MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive")));
         }
-        icon.setLore(TextUtils.args(icon.getLore(), new String[][]{{"%price%", getPrice() + ""}}));
+        lore = TextUtils.args(lore, new String[][]{{"%price%", getPrice() + ""}});
+        icon.setLore(lore);
         return icon;
     }
 
