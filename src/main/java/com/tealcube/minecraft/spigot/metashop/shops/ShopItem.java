@@ -16,6 +16,7 @@ package com.tealcube.minecraft.spigot.metashop.shops;
 
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
+import com.tealcube.minecraft.spigot.metashop.utils.MessageUtils;
 import com.tealcube.minecraft.spigot.metashop.utils.TextUtils;
 import ninja.amp.ampmenus.events.ItemClickEvent;
 import org.bukkit.entity.Player;
@@ -39,6 +40,27 @@ public class ShopItem extends MetaMenuItem {
     @Override
     public void onItemClick(ItemClickEvent event) {
         super.onItemClick(event);
+        double balance = MetaShopPlugin.getInstance().getEconomy().getBalance(event.getPlayer());
+        if (balance < price) {
+            event.setWillClose(false);
+            event.setWillGoBack(false);
+            event.setWillUpdate(false);
+            return;
+        }
+        if (!MetaShopPlugin.getInstance().getEconomy().withdrawPlayer(event.getPlayer(), price).transactionSuccess()) {
+            event.setWillClose(false);
+            event.setWillGoBack(false);
+            event.setWillUpdate(true);
+            MessageUtils.sendMessage(event.getPlayer(),
+                    MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
+            return;
+        }
+        event.getPlayer().getInventory().addItem(getItemToSell());
+        event.setWillClose(false);
+        event.setWillGoBack(false);
+        event.setWillUpdate(true);
+        MessageUtils.sendMessage(event.getPlayer(),
+                MetaShopPlugin.getInstance().getSettings().getString("language.successful-purchase"));
     }
 
     @Override
