@@ -12,3 +12,5 @@ permissions:
     default: op
   metashop.command.list:
     default: op
+  metashop.command.select:
+    default: op
