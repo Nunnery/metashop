@@ -32,8 +32,7 @@ public class MetaShopCommand {
     }
 
     @Command(identifier = "metashop show", permissions = "metashop.command.show", onlyPlayers = false)
-    public void showSubcommand(CommandSender sender, @Arg(name = "shop") String shopName,
-                               @Arg(name = "target", def = "?sender") Player target) {
+    public void showSubcommand(CommandSender sender, @Arg(name = "shop") String shopName, @Arg(name = "target", def = "?sender") Player target) {
         Shop shop = ShopManager.getShop(shopName);
         if (shop == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-open-sender"));

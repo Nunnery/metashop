@@ -173,9 +173,7 @@ public final class TextUtils {
 
         for (int i = 1; i <= str1.length(); i++) {
             for (int j = 1; j <= str2.length(); j++) {
-                distance[i][j] = NumberUtils.min(
-                        distance[i - 1][j] + 1,
-                        distance[i][j - 1] + 1,
+                distance[i][j] = NumberUtils.min(distance[i - 1][j] + 1, distance[i][j - 1] + 1,
                         distance[i - 1][j - 1] + ((str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1));
             }
         }

@@ -60,13 +60,13 @@ public class MetaShopPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        configYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "config.yml"),
-                getResource("config.yml"), VersionedSmartConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
+        configYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
+                VersionedSmartConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (configYAML.update()) {
             getLogger().info("Updating config.yml");
         }
-        languageYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "language.yml"),
-                getResource("language.yml"), VersionedSmartConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
+        languageYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "language.yml"), getResource("language.yml"),
+                VersionedSmartConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (languageYAML.update()) {
             getLogger().info("Updating language.yml");
         }
@@ -92,8 +92,8 @@ public class MetaShopPlugin extends JavaPlugin {
                 continue;
             }
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration(f);
-            Shop shop = new Shop(s.replace(".yml", ""), shopConfig.getString("name"),
-                    shopConfig.getInt("number-of-lines", 2), shopConfig.getInt("close-item-index", -2));
+            Shop shop = new Shop(s.replace(".yml", ""), shopConfig.getString("name"), shopConfig.getInt("number-of-lines", 2),
+                    shopConfig.getInt("close-item-index", -2));
             if (shopConfig.isConfigurationSection("items")) {
                 ConfigurationSection section = shopConfig.getConfigurationSection("items");
                 for (String key : section.getKeys(false)) {
@@ -151,8 +151,7 @@ public class MetaShopPlugin extends JavaPlugin {
 
     private void saveShops() {
         for (Shop shop : ShopManager.getShops()) {
-            SmartYamlConfiguration shopConfig =
-                    new SmartYamlConfiguration(new File(getDataFolder(), "/shops/" + shop.getId() + ".yml"));
+            SmartYamlConfiguration shopConfig = new SmartYamlConfiguration(new File(getDataFolder(), "/shops/" + shop.getId() + ".yml"));
             for (String key : shopConfig.getKeys(true)) {
                 shopConfig.set(key, null);
             }
@@ -166,8 +165,7 @@ public class MetaShopPlugin extends JavaPlugin {
                 shopConfig.set("items." + (i) + ".lore", TextUtils.decolor(entry.getValue().getItemToSell().getLore()));
                 shopConfig.set("items." + (i) + ".amount", entry.getValue().getItemToSell().getAmount());
                 shopConfig.set("items." + (i) + ".price", entry.getValue().getPrice());
-                shopConfig.set("items." + (i) + ".hide-flags",
-                        entry.getValue().getItemToSell().getItemMeta().hasItemFlag(ItemFlag.HIDE_ATTRIBUTES));
+                shopConfig.set("items." + (i) + ".hide-flags", entry.getValue().getItemToSell().getItemMeta().hasItemFlag(ItemFlag.HIDE_ATTRIBUTES));
                 for (Map.Entry<Enchantment, Integer> ent : entry.getValue().getItemToSell().getEnchantments().entrySet()) {
                     shopConfig.set("items." + (i) + ".enchantments." + ent.getKey().getName(), ent.getValue());
                 }

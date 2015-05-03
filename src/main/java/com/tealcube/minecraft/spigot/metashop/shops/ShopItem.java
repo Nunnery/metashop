@@ -51,8 +51,7 @@ public class ShopItem extends MetaMenuItem {
             event.setWillClose(false);
             event.setWillGoBack(false);
             event.setWillUpdate(true);
-            MessageUtils.sendMessage(event.getPlayer(),
-                    MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
+            MessageUtils.sendMessage(event.getPlayer(), MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
             return;
         }
         Map<Integer, ItemStack> items = event.getPlayer().getInventory().addItem(getItemToSell());
@@ -62,8 +61,7 @@ public class ShopItem extends MetaMenuItem {
         event.setWillClose(false);
         event.setWillGoBack(false);
         event.setWillUpdate(true);
-        MessageUtils.sendMessage(event.getPlayer(),
-                MetaShopPlugin.getInstance().getSettings().getString("language.successful-purchase"));
+        MessageUtils.sendMessage(event.getPlayer(), MetaShopPlugin.getInstance().getSettings().getString("language.successful-purchase"));
     }
 
     @Override
@@ -73,10 +71,9 @@ public class ShopItem extends MetaMenuItem {
         List<String> lore = icon.getLore();
         lore.add(TextUtils.color(MetaShopPlugin.getInstance().getSettings().getString("config.price-display")));
         if (balance < price) {
-            lore.add(TextUtils.color(
-                    MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive")));
+            lore.add(TextUtils.color(MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive")));
         }
-        lore = TextUtils.args(lore, new String[][]{{"%price%", getPrice() + ""}});
+        lore = TextUtils.args(lore, new String[][] { { "%price%", getPrice() + "" } });
         icon.setLore(lore);
         return icon;
     }

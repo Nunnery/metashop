@@ -24,7 +24,7 @@ public final class MessageUtils {
     }
 
     public static void sendMessage(CommandSender sender, String message) {
-        sendMessage(sender, message, new String[][]{});
+        sendMessage(sender, message, new String[][] {});
     }
 
     public static void sendMessage(CommandSender sender, String message, String[][] args) {
