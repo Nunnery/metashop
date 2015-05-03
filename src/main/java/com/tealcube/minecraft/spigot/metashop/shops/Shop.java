@@ -25,7 +25,7 @@ public class Shop extends ItemMenu {
 
     private final String id;
     private final int closeItemIndex;
-    private final Map<Integer, StoreItem> storeItems;
+    private final Map<Integer, ShopItem> storeItems;
 
     public Shop(String id, String name, int lines, int closeItemIndex) {
         super(name, Size.fit(lines * 9), MetaShopPlugin.getInstance());
@@ -50,11 +50,11 @@ public class Shop extends ItemMenu {
         return closeItemIndex;
     }
 
-    public Map<Integer, StoreItem> getStoreItems() {
+    public Map<Integer, ShopItem> getStoreItems() {
         return storeItems;
     }
 
-    public void addItem(int index, StoreItem item) {
+    public void addItem(int index, ShopItem item) {
         this.storeItems.put(index, item);
         this.setItem(index, item);
     }
