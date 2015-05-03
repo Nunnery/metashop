@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.diffplug.gradle.spotless:spotless:1.0'
+//        classpath 'com.diffplug.gradle.spotless:spotless:1.0'
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.1'
     }
@@ -15,7 +15,7 @@ apply plugin: "java"
 apply plugin: "maven-publish"
 apply plugin: "license"
 apply plugin: "com.github.johnrengelman.shadow"
-apply plugin: "com.diffplug.gradle.spotless"
+//apply plugin: "com.diffplug.gradle.spotless"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -109,8 +109,8 @@ publishing {
     }
 }
 
-spotless {
-    java {
-        eclipseFormatFile 'tcg.eclipse.formatter.xml'
-    }
-}
+//spotless {
+//    java {
+//        eclipseFormatFile 'tcg.eclipse.formatter.xml'
+//    }
+//}
