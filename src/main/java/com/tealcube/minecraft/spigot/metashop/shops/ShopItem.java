@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 
 public class ShopItem extends MetaMenuItem {
 
@@ -54,7 +55,10 @@ public class ShopItem extends MetaMenuItem {
                     MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
             return;
         }
-        event.getPlayer().getInventory().addItem(getItemToSell());
+        Map<Integer, ItemStack> items = event.getPlayer().getInventory().addItem(getItemToSell());
+        for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
+            event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), entry.getValue());
+        }
         event.setWillClose(false);
         event.setWillGoBack(false);
         event.setWillUpdate(true);
