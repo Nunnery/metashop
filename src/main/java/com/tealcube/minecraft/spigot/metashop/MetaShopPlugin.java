@@ -171,7 +171,8 @@ public class MetaShopPlugin extends JavaPlugin {
                 if (entry.getKey() == null || entry.getValue() == null) {
                     continue;
                 }
-                shopConfig.set("items." + (i++) + ".index", entry.getKey());
+                shopConfig.set("items." + (i) + ".index", entry.getKey());
+                shopConfig.set("items." + (i) + ".material", entry.getValue().getItemToSell().getType().name());
                 if (entry.getValue().getItemToSell().getName() != null) {
                     shopConfig.set("items." + (i) + ".name", TextUtils.decolor(entry.getValue().getItemToSell().getName()));
                 } else {
@@ -186,6 +187,7 @@ public class MetaShopPlugin extends JavaPlugin {
                 for (Map.Entry<Enchantment, Integer> ent : entry.getValue().getItemToSell().getEnchantments().entrySet()) {
                     shopConfig.set("items." + (i) + ".enchantments." + ent.getKey().getName(), ent.getValue());
                 }
+                i += 1;
             }
             shopConfig.save();
         }
