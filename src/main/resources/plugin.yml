@@ -14,3 +14,7 @@ permissions:
     default: op
   metashop.command.select:
     default: op
+  metashop.command.add:
+    default: op
+  metashop.command.remove:
+    default: op
