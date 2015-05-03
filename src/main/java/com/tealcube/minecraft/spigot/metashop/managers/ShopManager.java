@@ -42,7 +42,7 @@ public final class ShopManager {
 
     public static boolean addShop(Shop shop) {
         Preconditions.checkNotNull(shop, "shop cannot be null");
-        SHOP_MAP.put(shop.getName(), shop);
+        SHOP_MAP.put(shop.getId(), shop);
         return hasShop(shop);
     }
 
