@@ -105,7 +105,6 @@ public class MetaShopPlugin extends JavaPlugin {
                     his.setAmount(itemSection.getInt("amount"));
                     his.setName(TextUtils.color(itemSection.getString("name", "")));
                     List<String> lore = itemSection.getStringList("lore");
-                    lore.add(settings.getString("config.price-display"));
                     his.setLore(TextUtils.color(lore));
                     if (section.isConfigurationSection("enchantments")) {
                         for (String eKey : section.getConfigurationSection("enchantments").getKeys(false)) {
