@@ -168,9 +168,18 @@ public class MetaShopPlugin extends JavaPlugin {
             shopConfig.set("close-item-index", shop.getCloseItemIndex() <= -2 ? null : shop.getCloseItemIndex());
             int i = 0;
             for (Map.Entry<Integer, ShopItem> entry : shop.getStoreItems().entrySet()) {
+                if (entry.getKey() == null || entry.getValue() == null) {
+                    continue;
+                }
                 shopConfig.set("items." + (i++) + ".index", entry.getKey());
-                shopConfig.set("items." + (i) + ".name", TextUtils.decolor(entry.getValue().getItemToSell().getName()));
-                shopConfig.set("items." + (i) + ".lore", TextUtils.decolor(entry.getValue().getItemToSell().getLore()));
+                if (entry.getValue().getItemToSell().getName() != null) {
+                    shopConfig.set("items." + (i) + ".name", TextUtils.decolor(entry.getValue().getItemToSell().getName()));
+                } else {
+                    shopConfig.set("items." + (i) + ".name", null);
+                }
+                if (entry.getValue().getItemToSell().getLore() != null) {
+                    shopConfig.set("items." + (i) + ".lore", TextUtils.decolor(entry.getValue().getItemToSell().getLore()));
+                }
                 shopConfig.set("items." + (i) + ".amount", entry.getValue().getItemToSell().getAmount());
                 shopConfig.set("items." + (i) + ".price", entry.getValue().getPrice());
                 shopConfig.set("items." + (i) + ".hide-flags", entry.getValue().getItemToSell().getItemMeta().hasItemFlag(ItemFlag.HIDE_ATTRIBUTES));
