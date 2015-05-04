@@ -162,6 +162,9 @@ public class MetaShopPlugin extends JavaPlugin {
             for (String key : shopConfig.getKeys(true)) {
                 shopConfig.set(key, null);
             }
+            for (String key : shopConfig.getKeys(true)) {
+                shopConfig.set(key, null);
+            }
             shopConfig.set("name", shop.getName());
             shopConfig.set("number-of-lines", shop.getSize().ordinal() + 1);
             shopConfig.set("close-item-index", shop.getCloseItemIndex() <= -2 ? null : shop.getCloseItemIndex());
