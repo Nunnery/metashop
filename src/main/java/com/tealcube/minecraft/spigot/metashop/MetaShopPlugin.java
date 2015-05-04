@@ -14,6 +14,7 @@
  */
 package com.tealcube.minecraft.spigot.metashop;
 
+import com.google.common.collect.Sets;
 import com.tealcube.minecraft.bukkit.config.MasterConfiguration;
 import com.tealcube.minecraft.bukkit.config.SmartYamlConfiguration;
 import com.tealcube.minecraft.bukkit.config.VersionedSmartConfiguration;
@@ -119,13 +120,13 @@ public class MetaShopPlugin extends JavaPlugin {
                     his.setName(TextUtils.color(itemSection.getString("name", "")));
                     List<String> lore = itemSection.getStringList("lore");
                     his.setLore(TextUtils.color(lore));
-                    if (section.isConfigurationSection("enchantments")) {
+                    if (itemSection.isConfigurationSection("enchantments")) {
                         for (String eKey : section.getConfigurationSection("enchantments").getKeys(false)) {
-                            his.addUnsafeEnchantment(Enchantment.getByName(eKey), section.getInt("enchantments." + eKey));
+                            his.addUnsafeEnchantment(Enchantment.getByName(eKey), itemSection.getInt("enchantments." + eKey));
                         }
                     }
-                    if (section.getBoolean("hide-flags")) {
-                        his.getItemMeta().addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                    if (itemSection.getBoolean("hide-flags")) {
+                        his.setItemFlags(Sets.newHashSet(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE));
                     }
                     int index = itemSection.getInt("index");
                     if (index == -1) {
