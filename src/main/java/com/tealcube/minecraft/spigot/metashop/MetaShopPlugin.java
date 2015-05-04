@@ -168,7 +168,7 @@ public class MetaShopPlugin extends JavaPlugin {
             shopConfig.set("close-item-index", shop.getCloseItemIndex() <= -2 ? null : shop.getCloseItemIndex());
             int i = 0;
             for (Map.Entry<Integer, ShopItem> entry : shop.getStoreItems().entrySet()) {
-                if (entry.getKey() == null || entry.getValue() == null) {
+                if (entry.getKey() == null || entry.getValue() == null || entry.getValue().getItemToSell() == null) {
                     continue;
                 }
                 shopConfig.set("items." + (i) + ".index", entry.getKey());
