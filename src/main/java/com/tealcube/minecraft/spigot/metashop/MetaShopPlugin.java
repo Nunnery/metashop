@@ -111,6 +111,9 @@ public class MetaShopPlugin extends JavaPlugin {
                         continue;
                     }
                     ConfigurationSection itemSection = section.getConfigurationSection(key);
+                    if (!itemSection.isSet("material")) {
+                        continue;
+                    }
                     HiltItemStack his = new HiltItemStack(Material.valueOf(itemSection.getString("material")));
                     his.setAmount(itemSection.getInt("amount"));
                     his.setName(TextUtils.color(itemSection.getString("name", "")));
