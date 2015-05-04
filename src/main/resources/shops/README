@@ -1,0 +1,5 @@
+example.yml intentionally does not load.
+
+Create a shop by simply adding a new file called something
+other than example.yml and following the format outlined
+in example.yml. Creating shops is actually dead simple.
