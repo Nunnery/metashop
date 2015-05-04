@@ -26,7 +26,6 @@ import com.tealcube.minecraft.spigot.metashop.shops.ShopItem;
 import com.tealcube.minecraft.spigot.metashop.utils.IOUtil;
 import com.tealcube.minecraft.spigot.metashop.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
-import ninja.amp.ampmenus.items.MenuItem;
 import org.apache.commons.lang.math.RandomUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -129,7 +128,7 @@ public class MetaShopPlugin extends JavaPlugin {
                     if (index == -1) {
                         index = RandomUtils.nextInt(shop.getSize().getSize());
                     }
-                    MenuItem item = new ShopItem(his, itemSection.getDouble("price"));
+                    ShopItem item = new ShopItem(his, itemSection.getDouble("price"));
                     shop.setItem(index, item);
                 }
             }
