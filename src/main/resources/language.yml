@@ -13,3 +13,4 @@ successful-item-add: "<green>You successfully added the item in your hand to the
 successful-item-remove: "<green>You successfully removed the item in that index from the shop."
 save: "<green>Saved shops."
 load: "<green>Loaded shops."
+inventory-full: "<red>Your inventory is full. Your item cannot be added."

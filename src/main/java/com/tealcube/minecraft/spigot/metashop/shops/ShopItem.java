@@ -16,6 +16,7 @@ package com.tealcube.minecraft.spigot.metashop.shops;
 
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
+import com.tealcube.minecraft.spigot.metashop.utils.InventoryUtils;
 import com.tealcube.minecraft.spigot.metashop.utils.MessageUtils;
 import com.tealcube.minecraft.spigot.metashop.utils.TextUtils;
 import ninja.amp.ampmenus.events.ItemClickEvent;
@@ -23,7 +24,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.Map;
 
 public class ShopItem extends MetaMenuItem {
 
@@ -54,10 +54,14 @@ public class ShopItem extends MetaMenuItem {
             MessageUtils.sendMessage(event.getPlayer(), MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
             return;
         }
-        Map<Integer, ItemStack> items = event.getPlayer().getInventory().addItem(getItemToSell());
-        for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
-            event.getPlayer().getWorld().dropItem(event.getPlayer().getLocation(), entry.getValue());
+        if (!InventoryUtils.canBeAddedToInventory(event.getPlayer().getInventory(), getItemToSell())) {
+            event.setWillClose(false);
+            event.setWillGoBack(false);
+            event.setWillUpdate(true);
+            MessageUtils.sendMessage(event.getPlayer(), MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
+            return;
         }
+        event.getPlayer().getInventory().addItem(getItemToSell());
         event.setWillClose(false);
         event.setWillGoBack(false);
         event.setWillUpdate(true);
