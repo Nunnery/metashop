@@ -47,14 +47,14 @@ public class ShopItem extends MetaMenuItem {
             event.setWillUpdate(false);
             return;
         }
-        if (!MetaShopPlugin.getInstance().getEconomy().withdrawPlayer(event.getPlayer(), price).transactionSuccess()) {
+        if (!InventoryUtils.canBeAddedToInventory(event.getPlayer().getInventory(), getItemToSell())) {
             event.setWillClose(false);
             event.setWillGoBack(false);
             event.setWillUpdate(true);
             MessageUtils.sendMessage(event.getPlayer(), MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
             return;
         }
-        if (!InventoryUtils.canBeAddedToInventory(event.getPlayer().getInventory(), getItemToSell())) {
+        if (!MetaShopPlugin.getInstance().getEconomy().withdrawPlayer(event.getPlayer(), price).transactionSuccess()) {
             event.setWillClose(false);
             event.setWillGoBack(false);
             event.setWillUpdate(true);
