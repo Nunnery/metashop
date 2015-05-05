@@ -121,7 +121,7 @@ public class MetaShopPlugin extends JavaPlugin {
                     List<String> lore = itemSection.getStringList("lore");
                     his.setLore(TextUtils.color(lore));
                     if (itemSection.isConfigurationSection("enchantments")) {
-                        for (String eKey : section.getConfigurationSection("enchantments").getKeys(false)) {
+                        for (String eKey : itemSection.getConfigurationSection("enchantments").getKeys(false)) {
                             his.addUnsafeEnchantment(Enchantment.getByName(eKey), itemSection.getInt("enchantments." + eKey));
                         }
                     }
