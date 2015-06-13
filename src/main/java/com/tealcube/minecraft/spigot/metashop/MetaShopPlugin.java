@@ -117,7 +117,9 @@ public class MetaShopPlugin extends JavaPlugin {
                     }
                     HiltItemStack his = new HiltItemStack(Material.valueOf(itemSection.getString("material")));
                     his.setAmount(itemSection.getInt("amount"));
-                    his.setName(TextUtils.color(itemSection.getString("name", "")));
+                    if (itemSection.isSet("name")) {
+                        his.setName(TextUtils.color(itemSection.getString("name", "")));
+                    }
                     List<String> lore = itemSection.getStringList("lore");
                     his.setLore(TextUtils.color(lore));
                     if (itemSection.isConfigurationSection("enchantments")) {
