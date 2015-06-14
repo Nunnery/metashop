@@ -44,7 +44,7 @@ dependencies {
     compile "se.ranzdo.bukkit:methodcommand:0.2-SNAPSHOT"
     compile "com.tealcube.minecraft.bukkit:config:1.0.0-SNAPSHOT"
     compile "com.tealcube.minecraft.bukkit:hilt:1.0.0"
-    compile "ninja.amp:ampmenus:1.5"
+    compile "ninja.amp:ampmenus:1.4-SNAPSHOT"
 }
 
 processResources {
