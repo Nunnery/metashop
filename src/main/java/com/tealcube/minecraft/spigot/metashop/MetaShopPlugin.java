@@ -15,10 +15,7 @@
 package com.tealcube.minecraft.spigot.metashop;
 
 import com.google.common.collect.Sets;
-import com.tealcube.minecraft.bukkit.config.MasterConfiguration;
-import com.tealcube.minecraft.bukkit.config.SmartYamlConfiguration;
-import com.tealcube.minecraft.bukkit.config.VersionedSmartConfiguration;
-import com.tealcube.minecraft.bukkit.config.VersionedSmartYamlConfiguration;
+import com.tealcube.minecraft.bukkit.config.*;
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.commands.MetaShopCommand;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
@@ -61,12 +58,12 @@ public class MetaShopPlugin extends JavaPlugin {
         instance = this;
 
         configYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "config.yml"), getResource("config.yml"),
-                VersionedSmartConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
+                VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (configYAML.update()) {
             getLogger().info("Updating config.yml");
         }
         languageYAML = new VersionedSmartYamlConfiguration(new File(getDataFolder(), "language.yml"), getResource("language.yml"),
-                VersionedSmartConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
+                VersionedConfiguration.VersionUpdateType.BACKUP_AND_UPDATE);
         if (languageYAML.update()) {
             getLogger().info("Updating language.yml");
         }
@@ -86,7 +83,7 @@ public class MetaShopPlugin extends JavaPlugin {
     }
 
     public void loadShops() {
-        File shopsDirectory = new File(getDataFolder(), "/shops/");
+        File shopsDirectory = new File(getDataFolder(), "shops/");
         if (!IOUtil.mkdirs(shopsDirectory)) {
             getLogger().info("Unable to make shops directory");
         }
@@ -164,13 +161,7 @@ public class MetaShopPlugin extends JavaPlugin {
 
     public void saveShops() {
         for (Shop shop : ShopManager.getShops()) {
-            SmartYamlConfiguration shopConfig = new SmartYamlConfiguration(new File(getDataFolder(), "/shops/" + shop.getId() + ".yml"));
-            for (String key : shopConfig.getKeys(true)) {
-                shopConfig.set(key, null);
-            }
-            for (String key : shopConfig.getKeys(true)) {
-                shopConfig.set(key, null);
-            }
+            SmartYamlConfiguration shopConfig = new SmartYamlConfiguration();
             shopConfig.set("name", shop.getName());
             shopConfig.set("number-of-lines", shop.getSize().ordinal() + 1);
             shopConfig.set("close-item-index", shop.getCloseItemIndex() <= -2 ? null : shop.getCloseItemIndex());
@@ -197,6 +188,7 @@ public class MetaShopPlugin extends JavaPlugin {
                 }
                 i += 1;
             }
+            shopConfig.setFile(new File(getDataFolder(), "shops/" + shop.getId() + ".yml"));
             shopConfig.save();
         }
     }
