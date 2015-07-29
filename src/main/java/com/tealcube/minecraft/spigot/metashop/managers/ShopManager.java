@@ -38,32 +38,32 @@ public final class ShopManager {
         // do nothing
     }
 
-    public static boolean hasShopMenu(String name) {
+    public static boolean hasShop(String name) {
         Preconditions.checkNotNull(name, "name cannot be null");
         return SHOP_MAP.containsKey(name);
     }
 
-    public static boolean hasShopMenu(Shop shop) {
+    public static boolean hasShop(Shop shop) {
         Preconditions.checkNotNull(shop, "shop cannot be null");
-        return hasShopMenu(shop.getId());
+        return hasShop(shop.getId());
     }
 
-    public static boolean addShopMenu(Shop shop) {
+    public static boolean addShop(Shop shop) {
         Preconditions.checkNotNull(shop, "shop cannot be null");
         SHOP_MAP.put(shop.getId(), shop);
-        return hasShopMenu(shop);
+        return hasShop(shop);
     }
 
     public static boolean removeShop(Shop shop) {
         Preconditions.checkNotNull(shop, "shop cannot be null");
         SHOP_MAP.remove(shop.getId());
-        return !hasShopMenu(shop);
+        return !hasShop(shop);
     }
 
     public static boolean removeShop(String name) {
         Preconditions.checkNotNull(name, "name cannot be null");
         SHOP_MAP.remove(name);
-        return !hasShopMenu(name);
+        return !hasShop(name);
     }
 
     public static Set<Shop> getShops() {
