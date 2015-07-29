@@ -18,7 +18,7 @@ public final class Shop {
         this.closeItemIndex = closeItemIndex;
     }
 
-    public Map<Integer, Item> getShopItems() {
+    public Map<Integer, Item> getItems() {
         return shopItems;
     }
 

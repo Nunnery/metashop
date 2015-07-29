@@ -23,6 +23,7 @@
 package com.tealcube.minecraft.spigot.metashop.shops;
 
 import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
+import com.tealcube.minecraft.spigot.metashop.common.Preconditions;
 import ninja.amp.ampmenus.items.CloseItem;
 import ninja.amp.ampmenus.menus.ItemMenu;
 
@@ -31,9 +32,9 @@ import java.util.Map;
 
 public class ShopMenu extends ItemMenu {
 
-    private final String id;
-    private final int closeItemIndex;
-    private final Map<Integer, ShopMenuItem> storeItems;
+    private String id;
+    private int closeItemIndex;
+    private Map<Integer, ShopMenuItem> storeItems;
 
     public ShopMenu(String id, String name, int lines, int closeItemIndex) {
         super(name, Size.fit(lines * 9), MetaShopPlugin.getInstance());
@@ -62,10 +63,20 @@ public class ShopMenu extends ItemMenu {
         return storeItems;
     }
 
-    public ItemMenu setItem(int index, ShopMenuItem item) {
+    public ShopMenu setItem(int index, ShopMenuItem item) {
         super.setItem(index, item);
         this.storeItems.put(index, item);
         return this;
+    }
+
+    public void update(Shop shop) {
+        Preconditions.checkNotNull(shop);
+        id = shop.getId();
+        closeItemIndex = shop.getCloseItemIndex();
+        storeItems = new HashMap<>();
+        for (Map.Entry<Integer, Shop.Item> entry : shop.getItems().entrySet()) {
+            setItem(entry.getKey(), new ShopMenuItem(entry.getValue().getHiltItemStack(), entry.getValue().getPrice()));
+        }
     }
 
 }
