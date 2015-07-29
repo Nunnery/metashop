@@ -32,47 +32,47 @@ import java.util.Set;
 
 public final class ShopMenuManager {
 
-    private static final Map<String, ShopMenu> SHOP_MAP = new CaselessMap<>();
+    private static final Map<String, ShopMenu> SHOP_MENU_MAP = new CaselessMap<>();
 
     private ShopMenuManager() {
         // do nothing
     }
 
-    public static boolean hasShop(String name) {
+    public static boolean hasShopMenu(String name) {
         Preconditions.checkNotNull(name, "name cannot be null");
-        return SHOP_MAP.containsKey(name);
+        return SHOP_MENU_MAP.containsKey(name);
     }
 
-    public static boolean hasShop(ShopMenu shopMenu) {
+    public static boolean hasShopMenu(ShopMenu shopMenu) {
         Preconditions.checkNotNull(shopMenu, "shop cannot be null");
-        return hasShop(shopMenu.getName());
+        return hasShopMenu(shopMenu.getName());
     }
 
-    public static boolean addShop(ShopMenu shopMenu) {
+    public static boolean addShopMenu(ShopMenu shopMenu) {
         Preconditions.checkNotNull(shopMenu, "shop cannot be null");
-        SHOP_MAP.put(shopMenu.getId(), shopMenu);
-        return hasShop(shopMenu);
+        SHOP_MENU_MAP.put(shopMenu.getId(), shopMenu);
+        return hasShopMenu(shopMenu);
     }
 
-    public static boolean removeShop(ShopMenu shopMenu) {
+    public static boolean removeShopMenu(ShopMenu shopMenu) {
         Preconditions.checkNotNull(shopMenu, "shop cannot be null");
-        SHOP_MAP.remove(shopMenu.getName());
-        return !hasShop(shopMenu);
+        SHOP_MENU_MAP.remove(shopMenu.getName());
+        return !hasShopMenu(shopMenu);
     }
 
-    public static boolean removeShop(String name) {
+    public static boolean removeShopMenu(String name) {
         Preconditions.checkNotNull(name, "name cannot be null");
-        SHOP_MAP.remove(name);
-        return !hasShop(name);
+        SHOP_MENU_MAP.remove(name);
+        return !hasShopMenu(name);
     }
 
-    public static Set<ShopMenu> getShops() {
-        return new HashSet<>(SHOP_MAP.values());
+    public static Set<ShopMenu> getShopMenus() {
+        return new HashSet<>(SHOP_MENU_MAP.values());
     }
 
-    public static ShopMenu getShop(String name) {
+    public static ShopMenu getShopMenu(String name) {
         Preconditions.checkNotNull(name);
-        return SHOP_MAP.get(name);
+        return SHOP_MENU_MAP.get(name);
     }
 
 }

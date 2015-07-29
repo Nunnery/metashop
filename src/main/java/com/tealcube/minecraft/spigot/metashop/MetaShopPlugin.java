@@ -97,8 +97,8 @@ public class MetaShopPlugin extends JavaPlugin {
         }
         createExampleShopConfig(shopsDirectory);
 
-        for (ShopMenu shopMenu : ShopMenuManager.getShops()) {
-            ShopMenuManager.removeShop(shopMenu);
+        for (ShopMenu shopMenu : ShopMenuManager.getShopMenus()) {
+            ShopMenuManager.removeShopMenu(shopMenu);
         }
 
         // time for the whirlwind that is creating shops!
@@ -143,10 +143,10 @@ public class MetaShopPlugin extends JavaPlugin {
                     shopMenu.setItem(index, item);
                 }
             }
-            ShopMenuManager.addShop(shopMenu);
+            ShopMenuManager.addShopMenu(shopMenu);
         }
 
-        getLogger().info("Loaded shops: " + ShopMenuManager.getShops().size());
+        getLogger().info("Loaded shops: " + ShopMenuManager.getShopMenus().size());
     }
 
     private void createExampleShopConfig(File shopsDirectory) {
@@ -168,7 +168,7 @@ public class MetaShopPlugin extends JavaPlugin {
     }
 
     public void saveShops() {
-        for (ShopMenu shopMenu : ShopMenuManager.getShops()) {
+        for (ShopMenu shopMenu : ShopMenuManager.getShopMenus()) {
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration();
             shopConfig.set("name", shopMenu.getName());
             shopConfig.set("number-of-lines", shopMenu.getSize().ordinal() + 1);

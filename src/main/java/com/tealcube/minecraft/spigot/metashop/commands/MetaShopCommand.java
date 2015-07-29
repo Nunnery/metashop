@@ -46,7 +46,7 @@ public class MetaShopCommand {
 
     @Command(identifier = "metashop show", permissions = "metashop.command.show", onlyPlayers = false)
     public void showSubcommand(CommandSender sender, @Arg(name = "shop") String shopName, @Arg(name = "target", def = "?sender") Player target) {
-        ShopMenu shopMenu = ShopMenuManager.getShop(shopName);
+        ShopMenu shopMenu = ShopMenuManager.getShopMenu(shopName);
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-open-sender"));
             if (!sender.equals(target)) {
@@ -61,14 +61,14 @@ public class MetaShopCommand {
     @Command(identifier = "metashop list", permissions = "metashop.command.list", onlyPlayers = false)
     public void listSubcommand(CommandSender sender) {
         MessageUtils.sendMessage(sender, "<white>Use the first name given below.");
-        for (ShopMenu shopMenu : ShopMenuManager.getShops()) {
+        for (ShopMenu shopMenu : ShopMenuManager.getShopMenus()) {
             MessageUtils.sendMessage(sender, shopMenu.getId() + " : " + shopMenu.getName());
         }
     }
 
     @Command(identifier = "metashop select", permissions = "metashop.command.select", onlyPlayers = true)
     public void selectSubcommand(Player sender, @Arg(name = "shop name") String shopName) {
-        ShopMenu shopMenu = ShopMenuManager.getShop(shopName);
+        ShopMenu shopMenu = ShopMenuManager.getShopMenu(shopName);
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-select-shop"));
             return;
@@ -95,7 +95,7 @@ public class MetaShopCommand {
             return;
         }
         HiltItemStack his = new HiltItemStack(sender.getItemInHand());
-        ShopMenu shopMenu = ShopMenuManager.getShop(session.getShopId());
+        ShopMenu shopMenu = ShopMenuManager.getShopMenu(session.getShopId());
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
             return;
@@ -116,7 +116,7 @@ public class MetaShopCommand {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.no-session"));
             return;
         }
-        ShopMenu shopMenu = ShopMenuManager.getShop(session.getShopId());
+        ShopMenu shopMenu = ShopMenuManager.getShopMenu(session.getShopId());
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
             return;
