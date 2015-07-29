@@ -9,10 +9,13 @@ import java.util.Map;
 public final class Shop {
 
     private final String id;
+    private final int closeItemIndex;
     private final Map<Integer, Item> shopItems = new HashMap<>();
 
-    public Shop(String id) {
+    public Shop(String id, int closeItemIndex) {
+        Preconditions.checkNotNull(id);
         this.id = id;
+        this.closeItemIndex = closeItemIndex;
     }
 
     public Map<Integer, Item> getShopItems() {
@@ -28,6 +31,30 @@ public final class Shop {
 
     public String getId() {
         return id;
+    }
+
+    public int getCloseItemIndex() {
+        return closeItemIndex;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Shop shop = (Shop) o;
+
+        return getId().equals(shop.getId());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
     }
 
     public final class Item {
