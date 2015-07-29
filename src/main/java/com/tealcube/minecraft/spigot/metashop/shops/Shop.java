@@ -29,6 +29,10 @@ public final class Shop {
         return this;
     }
 
+    public Item createItem(HiltItemStack hiltItemStack, double price) {
+        return new Item(hiltItemStack, price);
+    }
+
     public String getId() {
         return id;
     }

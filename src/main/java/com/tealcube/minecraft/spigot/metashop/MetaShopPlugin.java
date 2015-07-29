@@ -23,12 +23,16 @@
 package com.tealcube.minecraft.spigot.metashop;
 
 import com.google.common.collect.Sets;
-import com.tealcube.minecraft.bukkit.config.*;
+import com.tealcube.minecraft.bukkit.config.MasterConfiguration;
+import com.tealcube.minecraft.bukkit.config.SmartYamlConfiguration;
+import com.tealcube.minecraft.bukkit.config.VersionedConfiguration;
+import com.tealcube.minecraft.bukkit.config.VersionedSmartYamlConfiguration;
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.commands.MetaShopCommand;
+import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopMenuManager;
+import com.tealcube.minecraft.spigot.metashop.shops.Shop;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
-import com.tealcube.minecraft.spigot.metashop.shops.ShopMenuItem;
 import com.tealcube.minecraft.spigot.metashop.utils.IOUtil;
 import com.tealcube.minecraft.spigot.metashop.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -101,14 +105,20 @@ public class MetaShopPlugin extends JavaPlugin {
             ShopMenuManager.removeShopMenu(shopMenu);
         }
 
+        for (Shop shop : ShopManager.getShops()) {
+            ShopManager.removeShop(shop);
+        }
+
         // time for the whirlwind that is creating shops!
         for (String s : shopsDirectory.list()) {
             File f = new File(shopsDirectory, s);
             if (!f.exists() || s.equals("example.yml") || !s.endsWith(".yml")) {
                 continue;
             }
+            String id = s.replace(".yml", "");
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration(f);
-            ShopMenu shopMenu = new ShopMenu(s.replace(".yml", ""), shopConfig.getString("name"), shopConfig.getInt("number-of-lines", 2),
+            Shop shop = new Shop(id, shopConfig.getInt("close-item-index", -2));
+            ShopMenu shopMenu = new ShopMenu(id, shopConfig.getString("name"), shopConfig.getInt("number-of-lines", 2),
                                              shopConfig.getInt("close-item-index", -2));
             if (shopConfig.isConfigurationSection("items")) {
                 ConfigurationSection section = shopConfig.getConfigurationSection("items");
@@ -139,14 +149,16 @@ public class MetaShopPlugin extends JavaPlugin {
                     if (index == -1) {
                         index = RandomUtils.nextInt(shopMenu.getSize().getSize());
                     }
-                    ShopMenuItem item = new ShopMenuItem(his, itemSection.getDouble("price"));
-                    shopMenu.setItem(index, item);
+                    Shop.Item item = shop.createItem(his, itemSection.getDouble("price"));
+                    shop.addItem(index, item);
                 }
             }
+            ShopManager.addShop(shop);
+            shopMenu.update(shop);
             ShopMenuManager.addShopMenu(shopMenu);
         }
 
-        getLogger().info("Loaded shops: " + ShopMenuManager.getShopMenus().size());
+        getLogger().info("Loaded shops: " + ShopManager.getShops().size());
     }
 
     private void createExampleShopConfig(File shopsDirectory) {
@@ -168,35 +180,36 @@ public class MetaShopPlugin extends JavaPlugin {
     }
 
     public void saveShops() {
-        for (ShopMenu shopMenu : ShopMenuManager.getShopMenus()) {
+        for (Shop shop : ShopManager.getShops()) {
+            ShopMenu shopMenu = ShopMenuManager.getShopMenu(shop.getId());
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration();
             shopConfig.set("name", shopMenu.getName());
             shopConfig.set("number-of-lines", shopMenu.getSize().ordinal() + 1);
             shopConfig.set("close-item-index", shopMenu.getCloseItemIndex() <= -2 ? null : shopMenu.getCloseItemIndex());
             int i = 0;
-            for (Map.Entry<Integer, ShopMenuItem> entry : shopMenu.getStoreItems().entrySet()) {
-                if (entry.getKey() == null || entry.getValue() == null || entry.getValue().getItemToSell() == null) {
+            for (Map.Entry<Integer, Shop.Item> entry : shop.getItems().entrySet()) {
+                if (entry.getKey() == null || entry.getValue() == null || entry.getValue().getHiltItemStack() == null) {
                     continue;
                 }
                 shopConfig.set("items." + (i) + ".index", entry.getKey());
-                shopConfig.set("items." + (i) + ".material", entry.getValue().getItemToSell().getType().name());
-                if (entry.getValue().getItemToSell().getName() != null) {
-                    shopConfig.set("items." + (i) + ".name", TextUtils.decolor(entry.getValue().getItemToSell().getName()));
+                shopConfig.set("items." + (i) + ".material", entry.getValue().getHiltItemStack().getType().name());
+                if (entry.getValue().getHiltItemStack().getName() != null) {
+                    shopConfig.set("items." + (i) + ".name", TextUtils.decolor(entry.getValue().getHiltItemStack().getName()));
                 } else {
                     shopConfig.set("items." + (i) + ".name", null);
                 }
-                if (entry.getValue().getItemToSell().getLore() != null) {
-                    shopConfig.set("items." + (i) + ".lore", TextUtils.decolor(entry.getValue().getItemToSell().getLore()));
+                if (entry.getValue().getHiltItemStack().getLore() != null) {
+                    shopConfig.set("items." + (i) + ".lore", TextUtils.decolor(entry.getValue().getHiltItemStack().getLore()));
                 }
-                shopConfig.set("items." + (i) + ".amount", entry.getValue().getItemToSell().getAmount());
+                shopConfig.set("items." + (i) + ".amount", entry.getValue().getHiltItemStack().getAmount());
                 shopConfig.set("items." + (i) + ".price", entry.getValue().getPrice());
-                shopConfig.set("items." + (i) + ".hide-flags", entry.getValue().getItemToSell().getItemMeta().hasItemFlag(ItemFlag.HIDE_ATTRIBUTES));
-                for (Map.Entry<Enchantment, Integer> ent : entry.getValue().getItemToSell().getEnchantments().entrySet()) {
+                shopConfig.set("items." + (i) + ".hide-flags", entry.getValue().getHiltItemStack().getItemMeta().hasItemFlag(ItemFlag.HIDE_ATTRIBUTES));
+                for (Map.Entry<Enchantment, Integer> ent : entry.getValue().getHiltItemStack().getEnchantments().entrySet()) {
                     shopConfig.set("items." + (i) + ".enchantments." + ent.getKey().getName(), ent.getValue());
                 }
                 i += 1;
             }
-            shopConfig.setFile(new File(getDataFolder(), "shops/" + shopMenu.getId() + ".yml"));
+            shopConfig.setFile(new File(getDataFolder(), "shops/" + shop.getId() + ".yml"));
             shopConfig.save();
         }
     }

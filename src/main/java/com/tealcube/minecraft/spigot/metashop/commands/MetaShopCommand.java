@@ -25,6 +25,7 @@ package com.tealcube.minecraft.spigot.metashop.commands;
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
 import com.tealcube.minecraft.spigot.metashop.managers.SessionManager;
+import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopMenuManager;
 import com.tealcube.minecraft.spigot.metashop.sessions.ShopEditSession;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
@@ -54,6 +55,7 @@ public class MetaShopCommand {
             }
             return;
         }
+        shopMenu.update(ShopManager.getShop(shopName));
         shopMenu.open(target);
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-open"));
     }
