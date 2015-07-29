@@ -45,7 +45,7 @@ public final class ShopMenuManager {
 
     public static boolean hasShopMenu(ShopMenu shopMenu) {
         Preconditions.checkNotNull(shopMenu, "shop cannot be null");
-        return hasShopMenu(shopMenu.getName());
+        return hasShopMenu(shopMenu.getId());
     }
 
     public static boolean addShopMenu(ShopMenu shopMenu) {
@@ -56,7 +56,7 @@ public final class ShopMenuManager {
 
     public static boolean removeShopMenu(ShopMenu shopMenu) {
         Preconditions.checkNotNull(shopMenu, "shop cannot be null");
-        SHOP_MENU_MAP.remove(shopMenu.getName());
+        SHOP_MENU_MAP.remove(shopMenu.getId());
         return !hasShopMenu(shopMenu);
     }
 
