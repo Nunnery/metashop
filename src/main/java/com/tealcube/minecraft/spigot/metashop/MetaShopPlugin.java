@@ -26,7 +26,7 @@ import com.google.common.collect.Sets;
 import com.tealcube.minecraft.bukkit.config.*;
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.commands.MetaShopCommand;
-import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
+import com.tealcube.minecraft.spigot.metashop.managers.ShopMenuManager;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenuItem;
 import com.tealcube.minecraft.spigot.metashop.utils.IOUtil;
@@ -97,8 +97,8 @@ public class MetaShopPlugin extends JavaPlugin {
         }
         createExampleShopConfig(shopsDirectory);
 
-        for (ShopMenu shopMenu : ShopManager.getShops()) {
-            ShopManager.removeShop(shopMenu);
+        for (ShopMenu shopMenu : ShopMenuManager.getShops()) {
+            ShopMenuManager.removeShop(shopMenu);
         }
 
         // time for the whirlwind that is creating shops!
@@ -143,10 +143,10 @@ public class MetaShopPlugin extends JavaPlugin {
                     shopMenu.setItem(index, item);
                 }
             }
-            ShopManager.addShop(shopMenu);
+            ShopMenuManager.addShop(shopMenu);
         }
 
-        getLogger().info("Loaded shops: " + ShopManager.getShops().size());
+        getLogger().info("Loaded shops: " + ShopMenuManager.getShops().size());
     }
 
     private void createExampleShopConfig(File shopsDirectory) {
@@ -168,7 +168,7 @@ public class MetaShopPlugin extends JavaPlugin {
     }
 
     public void saveShops() {
-        for (ShopMenu shopMenu : ShopManager.getShops()) {
+        for (ShopMenu shopMenu : ShopMenuManager.getShops()) {
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration();
             shopConfig.set("name", shopMenu.getName());
             shopConfig.set("number-of-lines", shopMenu.getSize().ordinal() + 1);

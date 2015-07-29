@@ -25,7 +25,7 @@ package com.tealcube.minecraft.spigot.metashop.commands;
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
 import com.tealcube.minecraft.spigot.metashop.managers.SessionManager;
-import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
+import com.tealcube.minecraft.spigot.metashop.managers.ShopMenuManager;
 import com.tealcube.minecraft.spigot.metashop.sessions.ShopEditSession;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenuItem;
@@ -46,7 +46,7 @@ public class MetaShopCommand {
 
     @Command(identifier = "metashop show", permissions = "metashop.command.show", onlyPlayers = false)
     public void showSubcommand(CommandSender sender, @Arg(name = "shop") String shopName, @Arg(name = "target", def = "?sender") Player target) {
-        ShopMenu shopMenu = ShopManager.getShop(shopName);
+        ShopMenu shopMenu = ShopMenuManager.getShop(shopName);
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-open-sender"));
             if (!sender.equals(target)) {
@@ -61,14 +61,14 @@ public class MetaShopCommand {
     @Command(identifier = "metashop list", permissions = "metashop.command.list", onlyPlayers = false)
     public void listSubcommand(CommandSender sender) {
         MessageUtils.sendMessage(sender, "<white>Use the first name given below.");
-        for (ShopMenu shopMenu : ShopManager.getShops()) {
+        for (ShopMenu shopMenu : ShopMenuManager.getShops()) {
             MessageUtils.sendMessage(sender, shopMenu.getId() + " : " + shopMenu.getName());
         }
     }
 
     @Command(identifier = "metashop select", permissions = "metashop.command.select", onlyPlayers = true)
     public void selectSubcommand(Player sender, @Arg(name = "shop name") String shopName) {
-        ShopMenu shopMenu = ShopManager.getShop(shopName);
+        ShopMenu shopMenu = ShopMenuManager.getShop(shopName);
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-select-shop"));
             return;
@@ -95,7 +95,7 @@ public class MetaShopCommand {
             return;
         }
         HiltItemStack his = new HiltItemStack(sender.getItemInHand());
-        ShopMenu shopMenu = ShopManager.getShop(session.getShopId());
+        ShopMenu shopMenu = ShopMenuManager.getShop(session.getShopId());
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
             return;
@@ -116,7 +116,7 @@ public class MetaShopCommand {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.no-session"));
             return;
         }
-        ShopMenu shopMenu = ShopManager.getShop(session.getShopId());
+        ShopMenu shopMenu = ShopMenuManager.getShop(session.getShopId());
         if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
             return;

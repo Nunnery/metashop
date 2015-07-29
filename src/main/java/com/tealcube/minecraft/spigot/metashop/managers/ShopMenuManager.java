@@ -30,11 +30,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public final class ShopManager {
+public final class ShopMenuManager {
 
     private static final Map<String, ShopMenu> SHOP_MAP = new CaselessMap<>();
 
-    private ShopManager() {
+    private ShopMenuManager() {
         // do nothing
     }
 
