@@ -1,5 +1,5 @@
-name: @NAME@
-version: @VERSION@
+name: ${project.build.name}
+version: ${project.build.version}
 main: com.tealcube.minecraft.spigot.metashop.MetaShopPlugin
 depend: [Vault]
 
