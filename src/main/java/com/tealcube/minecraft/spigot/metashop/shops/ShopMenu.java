@@ -29,13 +29,13 @@ import ninja.amp.ampmenus.menus.ItemMenu;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Shop extends ItemMenu {
+public class ShopMenu extends ItemMenu {
 
     private final String id;
     private final int closeItemIndex;
     private final Map<Integer, ShopItem> storeItems;
 
-    public Shop(String id, String name, int lines, int closeItemIndex) {
+    public ShopMenu(String id, String name, int lines, int closeItemIndex) {
         super(name, Size.fit(lines * 9), MetaShopPlugin.getInstance());
         this.id = id;
         this.closeItemIndex = closeItemIndex;

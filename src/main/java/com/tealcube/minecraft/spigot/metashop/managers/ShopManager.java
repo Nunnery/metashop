@@ -24,7 +24,7 @@ package com.tealcube.minecraft.spigot.metashop.managers;
 
 import com.tealcube.minecraft.spigot.metashop.collections.CaselessMap;
 import com.tealcube.minecraft.spigot.metashop.common.Preconditions;
-import com.tealcube.minecraft.spigot.metashop.shops.Shop;
+import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -32,7 +32,7 @@ import java.util.Set;
 
 public final class ShopManager {
 
-    private static final Map<String, Shop> SHOP_MAP = new CaselessMap<>();
+    private static final Map<String, ShopMenu> SHOP_MAP = new CaselessMap<>();
 
     private ShopManager() {
         // do nothing
@@ -43,21 +43,21 @@ public final class ShopManager {
         return SHOP_MAP.containsKey(name);
     }
 
-    public static boolean hasShop(Shop shop) {
-        Preconditions.checkNotNull(shop, "shop cannot be null");
-        return hasShop(shop.getName());
+    public static boolean hasShop(ShopMenu shopMenu) {
+        Preconditions.checkNotNull(shopMenu, "shop cannot be null");
+        return hasShop(shopMenu.getName());
     }
 
-    public static boolean addShop(Shop shop) {
-        Preconditions.checkNotNull(shop, "shop cannot be null");
-        SHOP_MAP.put(shop.getId(), shop);
-        return hasShop(shop);
+    public static boolean addShop(ShopMenu shopMenu) {
+        Preconditions.checkNotNull(shopMenu, "shop cannot be null");
+        SHOP_MAP.put(shopMenu.getId(), shopMenu);
+        return hasShop(shopMenu);
     }
 
-    public static boolean removeShop(Shop shop) {
-        Preconditions.checkNotNull(shop, "shop cannot be null");
-        SHOP_MAP.remove(shop.getName());
-        return !hasShop(shop);
+    public static boolean removeShop(ShopMenu shopMenu) {
+        Preconditions.checkNotNull(shopMenu, "shop cannot be null");
+        SHOP_MAP.remove(shopMenu.getName());
+        return !hasShop(shopMenu);
     }
 
     public static boolean removeShop(String name) {
@@ -66,11 +66,11 @@ public final class ShopManager {
         return !hasShop(name);
     }
 
-    public static Set<Shop> getShops() {
+    public static Set<ShopMenu> getShops() {
         return new HashSet<>(SHOP_MAP.values());
     }
 
-    public static Shop getShop(String name) {
+    public static ShopMenu getShop(String name) {
         Preconditions.checkNotNull(name);
         return SHOP_MAP.get(name);
     }

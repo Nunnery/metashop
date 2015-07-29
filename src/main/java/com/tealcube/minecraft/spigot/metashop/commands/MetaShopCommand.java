@@ -27,7 +27,7 @@ import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
 import com.tealcube.minecraft.spigot.metashop.managers.SessionManager;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
 import com.tealcube.minecraft.spigot.metashop.sessions.ShopEditSession;
-import com.tealcube.minecraft.spigot.metashop.shops.Shop;
+import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopItem;
 import com.tealcube.minecraft.spigot.metashop.utils.MessageUtils;
 import org.bukkit.Material;
@@ -46,35 +46,35 @@ public class MetaShopCommand {
 
     @Command(identifier = "metashop show", permissions = "metashop.command.show", onlyPlayers = false)
     public void showSubcommand(CommandSender sender, @Arg(name = "shop") String shopName, @Arg(name = "target", def = "?sender") Player target) {
-        Shop shop = ShopManager.getShop(shopName);
-        if (shop == null) {
+        ShopMenu shopMenu = ShopManager.getShop(shopName);
+        if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-open-sender"));
             if (!sender.equals(target)) {
                 MessageUtils.sendMessage(target, plugin.getSettings().getString("language.unable-to-open-receiver"));
             }
             return;
         }
-        shop.open(target);
+        shopMenu.open(target);
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-open"));
     }
 
     @Command(identifier = "metashop list", permissions = "metashop.command.list", onlyPlayers = false)
     public void listSubcommand(CommandSender sender) {
         MessageUtils.sendMessage(sender, "<white>Use the first name given below.");
-        for (Shop shop : ShopManager.getShops()) {
-            MessageUtils.sendMessage(sender, shop.getId() + " : " + shop.getName());
+        for (ShopMenu shopMenu : ShopManager.getShops()) {
+            MessageUtils.sendMessage(sender, shopMenu.getId() + " : " + shopMenu.getName());
         }
     }
 
     @Command(identifier = "metashop select", permissions = "metashop.command.select", onlyPlayers = true)
     public void selectSubcommand(Player sender, @Arg(name = "shop name") String shopName) {
-        Shop shop = ShopManager.getShop(shopName);
-        if (shop == null) {
+        ShopMenu shopMenu = ShopManager.getShop(shopName);
+        if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.unable-to-select-shop"));
             return;
         }
         ShopEditSession shopEditSession = new ShopEditSession(sender.getUniqueId());
-        shopEditSession.setShopId(shop.getId());
+        shopEditSession.setShopId(shopMenu.getId());
         SessionManager.addShopEditSession(shopEditSession);
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-shop-selection"));
     }
@@ -95,13 +95,13 @@ public class MetaShopCommand {
             return;
         }
         HiltItemStack his = new HiltItemStack(sender.getItemInHand());
-        Shop shop = ShopManager.getShop(session.getShopId());
-        if (shop == null) {
+        ShopMenu shopMenu = ShopManager.getShop(session.getShopId());
+        if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
             return;
         }
         ShopItem item = new ShopItem(his, price);
-        shop.setItem(index, item);
+        shopMenu.setItem(index, item);
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-add-item"));
     }
 
@@ -116,12 +116,12 @@ public class MetaShopCommand {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.no-session"));
             return;
         }
-        Shop shop = ShopManager.getShop(session.getShopId());
-        if (shop == null) {
+        ShopMenu shopMenu = ShopManager.getShop(session.getShopId());
+        if (shopMenu == null) {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
             return;
         }
-        shop.setItem(index, null);
+        shopMenu.setItem(index, null);
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-remove-item"));
     }
 

@@ -27,7 +27,7 @@ import com.tealcube.minecraft.bukkit.config.*;
 import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.commands.MetaShopCommand;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
-import com.tealcube.minecraft.spigot.metashop.shops.Shop;
+import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopItem;
 import com.tealcube.minecraft.spigot.metashop.utils.IOUtil;
 import com.tealcube.minecraft.spigot.metashop.utils.TextUtils;
@@ -97,8 +97,8 @@ public class MetaShopPlugin extends JavaPlugin {
         }
         createExampleShopConfig(shopsDirectory);
 
-        for (Shop shop : ShopManager.getShops()) {
-            ShopManager.removeShop(shop);
+        for (ShopMenu shopMenu : ShopManager.getShops()) {
+            ShopManager.removeShop(shopMenu);
         }
 
         // time for the whirlwind that is creating shops!
@@ -108,8 +108,8 @@ public class MetaShopPlugin extends JavaPlugin {
                 continue;
             }
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration(f);
-            Shop shop = new Shop(s.replace(".yml", ""), shopConfig.getString("name"), shopConfig.getInt("number-of-lines", 2),
-                    shopConfig.getInt("close-item-index", -2));
+            ShopMenu shopMenu = new ShopMenu(s.replace(".yml", ""), shopConfig.getString("name"), shopConfig.getInt("number-of-lines", 2),
+                                             shopConfig.getInt("close-item-index", -2));
             if (shopConfig.isConfigurationSection("items")) {
                 ConfigurationSection section = shopConfig.getConfigurationSection("items");
                 for (String key : section.getKeys(false)) {
@@ -137,13 +137,13 @@ public class MetaShopPlugin extends JavaPlugin {
                     }
                     int index = itemSection.getInt("index");
                     if (index == -1) {
-                        index = RandomUtils.nextInt(shop.getSize().getSize());
+                        index = RandomUtils.nextInt(shopMenu.getSize().getSize());
                     }
                     ShopItem item = new ShopItem(his, itemSection.getDouble("price"));
-                    shop.setItem(index, item);
+                    shopMenu.setItem(index, item);
                 }
             }
-            ShopManager.addShop(shop);
+            ShopManager.addShop(shopMenu);
         }
 
         getLogger().info("Loaded shops: " + ShopManager.getShops().size());
@@ -168,13 +168,13 @@ public class MetaShopPlugin extends JavaPlugin {
     }
 
     public void saveShops() {
-        for (Shop shop : ShopManager.getShops()) {
+        for (ShopMenu shopMenu : ShopManager.getShops()) {
             SmartYamlConfiguration shopConfig = new SmartYamlConfiguration();
-            shopConfig.set("name", shop.getName());
-            shopConfig.set("number-of-lines", shop.getSize().ordinal() + 1);
-            shopConfig.set("close-item-index", shop.getCloseItemIndex() <= -2 ? null : shop.getCloseItemIndex());
+            shopConfig.set("name", shopMenu.getName());
+            shopConfig.set("number-of-lines", shopMenu.getSize().ordinal() + 1);
+            shopConfig.set("close-item-index", shopMenu.getCloseItemIndex() <= -2 ? null : shopMenu.getCloseItemIndex());
             int i = 0;
-            for (Map.Entry<Integer, ShopItem> entry : shop.getStoreItems().entrySet()) {
+            for (Map.Entry<Integer, ShopItem> entry : shopMenu.getStoreItems().entrySet()) {
                 if (entry.getKey() == null || entry.getValue() == null || entry.getValue().getItemToSell() == null) {
                     continue;
                 }
@@ -196,7 +196,7 @@ public class MetaShopPlugin extends JavaPlugin {
                 }
                 i += 1;
             }
-            shopConfig.setFile(new File(getDataFolder(), "shops/" + shop.getId() + ".yml"));
+            shopConfig.setFile(new File(getDataFolder(), "shops/" + shopMenu.getId() + ".yml"));
             shopConfig.save();
         }
     }
