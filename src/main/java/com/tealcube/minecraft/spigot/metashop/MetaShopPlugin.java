@@ -28,7 +28,7 @@ import com.tealcube.minecraft.bukkit.hilt.HiltItemStack;
 import com.tealcube.minecraft.spigot.metashop.commands.MetaShopCommand;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
-import com.tealcube.minecraft.spigot.metashop.shops.ShopItem;
+import com.tealcube.minecraft.spigot.metashop.shops.ShopMenuItem;
 import com.tealcube.minecraft.spigot.metashop.utils.IOUtil;
 import com.tealcube.minecraft.spigot.metashop.utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
@@ -139,7 +139,7 @@ public class MetaShopPlugin extends JavaPlugin {
                     if (index == -1) {
                         index = RandomUtils.nextInt(shopMenu.getSize().getSize());
                     }
-                    ShopItem item = new ShopItem(his, itemSection.getDouble("price"));
+                    ShopMenuItem item = new ShopMenuItem(his, itemSection.getDouble("price"));
                     shopMenu.setItem(index, item);
                 }
             }
@@ -174,7 +174,7 @@ public class MetaShopPlugin extends JavaPlugin {
             shopConfig.set("number-of-lines", shopMenu.getSize().ordinal() + 1);
             shopConfig.set("close-item-index", shopMenu.getCloseItemIndex() <= -2 ? null : shopMenu.getCloseItemIndex());
             int i = 0;
-            for (Map.Entry<Integer, ShopItem> entry : shopMenu.getStoreItems().entrySet()) {
+            for (Map.Entry<Integer, ShopMenuItem> entry : shopMenu.getStoreItems().entrySet()) {
                 if (entry.getKey() == null || entry.getValue() == null || entry.getValue().getItemToSell() == null) {
                     continue;
                 }

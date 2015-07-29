@@ -33,13 +33,13 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class ShopItem extends MetaMenuItem {
+public class ShopMenuItem extends MetaMenuItem {
 
     private final HiltItemStack itemToSell;
 
     private double price;
 
-    public ShopItem(HiltItemStack hiltItemStack, double price) {
+    public ShopMenuItem(HiltItemStack hiltItemStack, double price) {
         super(hiltItemStack.getName(), hiltItemStack, hiltItemStack.getLore());
         this.itemToSell = hiltItemStack;
         this.price = price;

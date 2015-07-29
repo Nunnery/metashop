@@ -28,7 +28,7 @@ import com.tealcube.minecraft.spigot.metashop.managers.SessionManager;
 import com.tealcube.minecraft.spigot.metashop.managers.ShopManager;
 import com.tealcube.minecraft.spigot.metashop.sessions.ShopEditSession;
 import com.tealcube.minecraft.spigot.metashop.shops.ShopMenu;
-import com.tealcube.minecraft.spigot.metashop.shops.ShopItem;
+import com.tealcube.minecraft.spigot.metashop.shops.ShopMenuItem;
 import com.tealcube.minecraft.spigot.metashop.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -100,7 +100,7 @@ public class MetaShopCommand {
             MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.shop-does-not-exist"));
             return;
         }
-        ShopItem item = new ShopItem(his, price);
+        ShopMenuItem item = new ShopMenuItem(his, price);
         shopMenu.setItem(index, item);
         MessageUtils.sendMessage(sender, plugin.getSettings().getString("language.successful-add-item"));
     }
