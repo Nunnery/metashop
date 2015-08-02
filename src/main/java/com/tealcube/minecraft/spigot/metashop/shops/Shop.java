@@ -88,7 +88,7 @@ public final class Shop {
         private final double price;
 
         public Item(HiltItemStack hiltItemStack, double price) {
-            this.hiltItemStack = hiltItemStack.clone();
+            this.hiltItemStack = hiltItemStack;
             this.price = price;
         }
 
