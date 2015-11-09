@@ -76,8 +76,7 @@ public class ShopMenu extends ItemMenu {
         closeItemIndex = shop.getCloseItemIndex();
         storeItems = new HashMap<>();
         for (Map.Entry<Integer, Shop.Item> entry : shop.getItems().entrySet()) {
-            setItem(entry.getKey(), new ShopMenuItem(entry.getValue().getHiltItemStack().clone(),
-                    entry.getValue().getPrice()));
+            setItem(entry.getKey(), new ShopMenuItem(entry.getValue().getHiltItemStack(), entry.getValue().getPrice()));
         }
     }
 
