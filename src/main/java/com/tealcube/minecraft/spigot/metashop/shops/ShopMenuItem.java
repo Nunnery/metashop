@@ -42,7 +42,7 @@ public class ShopMenuItem extends MetaMenuItem {
     private double price;
 
     public ShopMenuItem(HiltItemStack hiltItemStack, double price) {
-        super(hiltItemStack.getName(), hiltItemStack, hiltItemStack.getLore());
+        super(hiltItemStack.getName(), hiltItemStack.clone(), hiltItemStack.getLore());
         this.itemToSell = hiltItemStack.clone();
         this.price = price;
     }
