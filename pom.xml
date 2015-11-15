@@ -84,9 +84,9 @@
             <version>0.1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.tealcube.minecraft.bukkit</groupId>
+            <groupId>ninja.amp</groupId>
             <artifactId>ampmenus</artifactId>
-            <version>0.1.0</version>
+            <version>1.6-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
