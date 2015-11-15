@@ -27,11 +27,13 @@ import com.tealcube.minecraft.spigot.metashop.MetaShopPlugin;
 import com.tealcube.minecraft.spigot.metashop.utils.InventoryUtils;
 import com.tealcube.minecraft.spigot.metashop.utils.MessageUtils;
 import com.tealcube.minecraft.spigot.metashop.utils.TextUtils;
-import ninja.amp.ampmenus.events.ItemClickEvent;
+
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+
+import ninja.amp.ampmenus.events.ItemClickEvent;
 
 public class ShopMenuItem extends MetaMenuItem {
 
@@ -41,7 +43,7 @@ public class ShopMenuItem extends MetaMenuItem {
 
     public ShopMenuItem(HiltItemStack hiltItemStack, double price) {
         super(hiltItemStack.getName(), hiltItemStack, hiltItemStack.getLore());
-        this.itemToSell = hiltItemStack;
+        this.itemToSell = hiltItemStack.clone();
         this.price = price;
     }
 
