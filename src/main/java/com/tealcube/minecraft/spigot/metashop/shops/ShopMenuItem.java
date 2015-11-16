@@ -93,6 +93,13 @@ public class ShopMenuItem extends MetaMenuItem {
     }
 
     public HiltItemStack getItemToSell() {
+        HiltItemStack ret = itemToSell;
+        if (ret.getName().equals(ret.getDefaultName())) {
+            ret.setName(null);
+        }
+        if (ret.getName().equals("default")) {
+            ret.setName(null);
+        }
         return itemToSell;
     }
 
