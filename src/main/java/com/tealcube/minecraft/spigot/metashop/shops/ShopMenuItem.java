@@ -81,6 +81,9 @@ public class ShopMenuItem extends MetaMenuItem {
     @Override
     public ItemStack getFinalIcon(Player player) {
         HiltItemStack icon = new HiltItemStack(super.getFinalIcon(player));
+        if (icon.getName() == null) {
+            icon.setName(icon.getDefaultName());
+        }
         double balance = MetaShopPlugin.getInstance().getEconomy().getBalance(player);
         List<String> lore = icon.getLore();
         lore.add(TextUtils.color(MetaShopPlugin.getInstance().getSettings().getString("config.price-display")));
