@@ -61,7 +61,7 @@ public class ShopMenuItem extends MetaMenuItem {
             event.setWillClose(false);
             event.setWillGoBack(false);
             event.setWillUpdate(true);
-            MessageUtils.sendMessage(event.getPlayer(), MetaShopPlugin.getInstance().getSettings().getString("language.item-too-expensive"));
+            MessageUtils.sendMessage(event.getPlayer(), MetaShopPlugin.getInstance().getSettings().getString("language.inventory-full"));
             return;
         }
         if (!MetaShopPlugin.getInstance().getEconomy().withdrawPlayer(event.getPlayer(), price).transactionSuccess()) {
@@ -81,8 +81,8 @@ public class ShopMenuItem extends MetaMenuItem {
     @Override
     public ItemStack getFinalIcon(Player player) {
         HiltItemStack icon = new HiltItemStack(super.getFinalIcon(player));
-        if (icon.getName() == null) {
-            icon.setName(icon.getDefaultName());
+        if (icon.getName().equals("default")) {
+            icon.setName(null);
         }
         double balance = MetaShopPlugin.getInstance().getEconomy().getBalance(player);
         List<String> lore = icon.getLore();
